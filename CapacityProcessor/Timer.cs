@@ -12,35 +12,33 @@ namespace CapacityProcessor
 
     class Timer
     {
-        System.Timers.Timer aTimer = new System.Timers.Timer();
-        CPU_RAM_Counter counter;
-        private List<string> storage;
+        System.Timers.Timer timer = new System.Timers.Timer();
+        CpuRamCounter counter;
+        private List<string> storageOfCpuRamInfo;
+        private const short interval = 1000;
         
         public Timer()
         {
-            storage = new List<string>();
-            counter = new CPU_RAM_Counter();
-            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            aTimer.Interval = 1000;
-            aTimer.Enabled = true;
+            storageOfCpuRamInfo = new List<string>();
+            counter = new CpuRamCounter();
+            timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            timer.Interval = interval;
+            timer.Enabled = true;
 
-            //Console.WriteLine("Press \'q\' to quit.");
-            //while (Console.Read() != 'q') ;
+            //Press q to quit 
+            while (Console.Read() != 'q') ;
         }
         
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {    
-            storage.Add(string.Format("CPU: {0}. \nRAM available: {1}.", counter.getCurrentCpuUsage(), counter.getAvailableRAM()));
+            storageOfCpuRamInfo.Add(string.Format("CPU: {0}. \nRAM available: {1}.", counter.GetInformationLoadCpu(), counter.GetInformationLoadRAM()));
         }
 
-        public void GetInfo()
+        public List<string> GetCpuRamInfo()
         {
-            aTimer.Enabled = false;
-            foreach (var item in storage)
-            {
-                Console.WriteLine(item);
-            }
-            aTimer.Enabled = true;
+            return storageOfCpuRamInfo.ToList();
         }
+
+
     }
 }

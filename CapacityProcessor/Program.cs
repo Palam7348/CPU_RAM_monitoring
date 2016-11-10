@@ -13,7 +13,10 @@ namespace CapacityProcessor
         static void Main(string[] args)
         {
             Timer timer = new Timer();
-            timer.GetInfo();
+            foreach (var item in timer.GetCpuRamInfo())
+            {
+                Console.WriteLine(item);
+            }
             Console.ReadKey();
 
         }
