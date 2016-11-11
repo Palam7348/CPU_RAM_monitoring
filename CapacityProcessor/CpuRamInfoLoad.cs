@@ -12,6 +12,7 @@ namespace CapacityProcessor
         private CpuRamCounter counter;
         private List<string> storageOfCpuRamInfo;
         private const short interval = 1000;
+        private const short maxStorageLength = 600;
         
         public CpuRamInfoLoad()
         {
@@ -26,7 +27,7 @@ namespace CapacityProcessor
         {
             string cpuLoading = counter.GetInformationLoadCpu();
             string ramLoading = counter.GetInformationLoadRAM();
-            if (storageOfCpuRamInfo.Count() == 600)
+            if (storageOfCpuRamInfo.Count() == maxStorageLength)
             {
                 storageOfCpuRamInfo.RemoveRange(501, 99);
             }
