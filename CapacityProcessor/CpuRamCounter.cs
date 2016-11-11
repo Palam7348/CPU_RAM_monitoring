@@ -11,22 +11,22 @@ namespace CapacityProcessor
     {
         private PerformanceCounter cpuCounter;
         private PerformanceCounter ramCounter;
-        private const string CPUcategoryName = "Processor";
-        private const string CPUcounterName = "% Processor Time";
-        private const string CPUinstanceName = "_Total";
-        private const string RAMcategoryName = "Memory";
-        private const string RAMcounterName = "Available MBytes";
+        private const string cpuCategoryName = "Processor";
+        private const string cpuCounterName = "% Processor Time";
+        private const string cpuInstanceName = "_Total";
+        private const string ramCategoryName = "Memory";
+        private const string ramCounterName = "Available MBytes";
 
 
         public CpuRamCounter()
         {
             cpuCounter = new PerformanceCounter();
 
-            cpuCounter.CategoryName = CPUcategoryName;
-            cpuCounter.CounterName = CPUcounterName;
-            cpuCounter.InstanceName = CPUinstanceName;
+            cpuCounter.CategoryName = cpuCategoryName;
+            cpuCounter.CounterName = cpuCounterName;
+            cpuCounter.InstanceName = cpuInstanceName;
 
-            ramCounter = new PerformanceCounter(RAMcategoryName, RAMcounterName);
+            ramCounter = new PerformanceCounter(ramCategoryName, ramCounterName);
         }
 
         public string GetInformationLoadCpu()
