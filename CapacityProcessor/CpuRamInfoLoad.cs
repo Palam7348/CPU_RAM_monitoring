@@ -13,7 +13,9 @@ namespace CapacityProcessor
         private List<string> storageOfCpuRamInfo;
         private const short interval = 1000;
         private const short maxStorageLength = 600;
-        
+        private const short maxLengthToSendInfo = 500;
+        private const short lengthOfDeletingOldRecords = 99;
+
         public CpuRamInfoLoad()
         {
             storageOfCpuRamInfo = new List<string>();
@@ -29,14 +31,14 @@ namespace CapacityProcessor
             string ramLoading = counter.GetInformationLoadRAM();
             if (storageOfCpuRamInfo.Count() == maxStorageLength)
             {
-                storageOfCpuRamInfo.RemoveRange(501, 99);
+                storageOfCpuRamInfo.RemoveRange(maxLengthToSendInfo + 1, lengthOfDeletingOldRecords);
             }
             storageOfCpuRamInfo.Add(string.Format("CPU: {0}. \nRAM available: {1}.", cpuLoading, ramLoading));
         }
 
         public List<string> GetCpuRamInfo()
         {
-            return storageOfCpuRamInfo.Count > 500 ? storageOfCpuRamInfo.GetRange(0, 501) :
+            return storageOfCpuRamInfo.Count > maxLengthToSendInfo ? storageOfCpuRamInfo.GetRange(0, maxLengthToSendInfo + 1) :
                 storageOfCpuRamInfo.GetRange(0, storageOfCpuRamInfo.Count);           
         }
     }
