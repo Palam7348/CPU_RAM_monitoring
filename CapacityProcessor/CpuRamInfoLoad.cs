@@ -29,7 +29,7 @@ namespace CapacityProcessor
         {
             string cpuLoading = counter.GetInformationLoadCpu();
             string ramLoading = counter.GetInformationLoadRAM();
-            if (storageOfCpuRamInfo.Count() == maxStorageLength)
+            if (storageOfCpuRamInfo.Count() >= maxStorageLength)
             {
                 storageOfCpuRamInfo.RemoveRange(maxLengthToSendInfo + 1, lengthOfDeletingOldRecords);
             }
@@ -38,8 +38,7 @@ namespace CapacityProcessor
 
         public List<string> GetCpuRamInfo()
         {
-            return storageOfCpuRamInfo.Count > maxLengthToSendInfo ? storageOfCpuRamInfo.GetRange(0, maxLengthToSendInfo + 1) :
-                storageOfCpuRamInfo.GetRange(0, storageOfCpuRamInfo.Count);           
+            return storageOfCpuRamInfo.Take(500).ToList();         
         }
     }
 }
