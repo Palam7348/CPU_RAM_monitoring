@@ -11,14 +11,14 @@ namespace CapacityProcessor
         private System.Timers.Timer timer = new System.Timers.Timer();
         private CpuRamCounter counter;
         private List<string> storageOfCpuRamInfo;
-        private const short interval = 1000;
         private const short maxStorageLength = 600;
-        private const short maxLengthToSendInfo = 500;
+        private short lengthOfSequenceToSend;
         private const short lengthOfDeletingOldRecords = 99;
 
-        public CpuRamInfoLoad()
+        public CpuRamInfoLoad(short lengthOfSequenceToSend, int interval)
         {
             storageOfCpuRamInfo = new List<string>();
+            this.lengthOfSequenceToSend = lengthOfSequenceToSend;
             counter = new CpuRamCounter();
             timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             timer.Interval = interval;
@@ -31,14 +31,14 @@ namespace CapacityProcessor
             string ramLoading = counter.GetInformationLoadRAM();
             if (storageOfCpuRamInfo.Count() >= maxStorageLength)
             {
-                storageOfCpuRamInfo.RemoveRange(maxLengthToSendInfo + 1, lengthOfDeletingOldRecords);
+                storageOfCpuRamInfo.RemoveRange(lengthOfSequenceToSend + 1, lengthOfDeletingOldRecords);
             }
             storageOfCpuRamInfo.Add(string.Format("CPU: {0}. \nRAM available: {1}.", cpuLoading, ramLoading));
         }
 
         public List<string> GetCpuRamInfo()
         {
-            return storageOfCpuRamInfo.Take(500).ToList();         
+            return storageOfCpuRamInfo.Take(lengthOfSequenceToSend).Reverse().ToList();         
         }
     }
 }

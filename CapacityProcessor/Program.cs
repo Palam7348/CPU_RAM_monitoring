@@ -10,13 +10,22 @@ namespace CapacityProcessor
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void ShowList(List<string> list)
         {
-            CpuRamInfoLoad cpuRamInfoLoader = new CpuRamInfoLoad();
-            Thread.Sleep(5000);
-            foreach (var item in cpuRamInfoLoader.GetCpuRamInfo())
+            foreach (var item in list)
             {
                 Console.WriteLine(item);
+            }
+        }
+        static void Main(string[] args)
+        {
+            CpuRamInfoLoad loader = new CpuRamInfoLoad(300, 3000);
+            
+            for (int i = 0; i < 100; i++)
+            {
+                Thread.Sleep(5000);
+                ShowList(loader.GetCpuRamInfo());
+                
             }
 
             Console.ReadKey();
