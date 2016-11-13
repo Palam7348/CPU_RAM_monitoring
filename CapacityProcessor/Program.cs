@@ -11,7 +11,7 @@ namespace CapacityProcessor
     class Program
     {
         public static void ShowList(List<string> list)
-        {
+        {       
             foreach (var item in list)
             {
                 Console.WriteLine(item);
@@ -19,13 +19,13 @@ namespace CapacityProcessor
         }
         static void Main(string[] args)
         {
-            CpuRamInfoLoad loader = new CpuRamInfoLoad(300, 3000);
-            
-            for (int i = 0; i < 100; i++)
+            CpuRamInfoLoad loader = new CpuRamInfoLoad(50, 1000);
+            for (;;)
             {
-                Thread.Sleep(5000);
                 ShowList(loader.GetCpuRamInfo());
-                
+                Thread.Sleep(1000);
+                Console.Clear();
+
             }
 
             Console.ReadKey();

@@ -11,14 +11,15 @@ namespace CapacityProcessor
         private System.Timers.Timer timer = new System.Timers.Timer();
         private CpuRamCounter counter;
         private List<string> storageOfCpuRamInfo;
-        private const short maxStorageLength = 600;
-        private short lengthOfSequenceToSend;
+        private short maxStorageLength;
+        private short lengthOfMaxSequenceToSend;
         private const short lengthOfDeletingOldRecords = 99;
 
-        public CpuRamInfoLoad(short lengthOfSequenceToSend, int interval)
+        public CpuRamInfoLoad(short lengthOfMaxSequenceToSend, int interval)
         {
+            maxStorageLength = (short)(lengthOfMaxSequenceToSend + lengthOfDeletingOldRecords);
             storageOfCpuRamInfo = new List<string>();
-            this.lengthOfSequenceToSend = lengthOfSequenceToSend;
+            this.lengthOfMaxSequenceToSend = lengthOfMaxSequenceToSend;
             counter = new CpuRamCounter();
             timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             timer.Interval = interval;
@@ -31,14 +32,14 @@ namespace CapacityProcessor
             string ramLoading = counter.GetInformationLoadRAM();
             if (storageOfCpuRamInfo.Count() >= maxStorageLength)
             {
-                storageOfCpuRamInfo.RemoveRange(lengthOfSequenceToSend + 1, lengthOfDeletingOldRecords);
+                storageOfCpuRamInfo.RemoveRange(0, lengthOfDeletingOldRecords);
             }
             storageOfCpuRamInfo.Add(string.Format("CPU: {0}. \nRAM available: {1}.", cpuLoading, ramLoading));
         }
 
         public List<string> GetCpuRamInfo()
         {
-            return storageOfCpuRamInfo.Take(lengthOfSequenceToSend).Reverse().ToList();         
-        }
+            return storageOfCpuRamInfo.Take(lengthOfMaxSequenceToSend).Reverse().ToList();         
+        }     
     }
 }
