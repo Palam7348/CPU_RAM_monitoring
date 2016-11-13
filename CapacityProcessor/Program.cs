@@ -20,7 +20,7 @@ namespace CapacityProcessor
         static void Main(string[] args)
         {
             CpuRamInfoLoad loader = new CpuRamInfoLoad(50, 1000);
-            for (;;)
+            for (int i = 0; i < 100;i++)
             {
                 ShowList(loader.GetCpuRamInfo());
                 Thread.Sleep(1000);
